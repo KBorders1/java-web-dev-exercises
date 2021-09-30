@@ -1,21 +1,50 @@
 package org.launchcode.java.studios.quizzes;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.junit.Test;
 
 public class MultipleChoice extends Question {
 
-    String answer;
+    private ArrayList<String> possibleAnswers;
+    private int correctAnswer;
 
-    public MultipleChoice(String aQuestion, ArrayList<String> aChoices, String aCorrectAnswer) {
-        super(aQuestion, aChoices);
-        answer = aCorrectAnswer;
-        setQuestionType("Mutiple Choice");
+    public MultipleChoice(int pointValue, String text, int correctAnswer, ArrayList<String> possibleAnswers) {
+        super(pointValue, text);
+        this.correctAnswer = correctAnswer;
+        this.possibleAnswers = possibleAnswers;
+        setPointValue(1);
     }
 
     @Override
-    public void askQuestion() {
-        System.out.println(getQuestion());
-        System.out.println("Choose one option: ");
-        System.out.println(getChoices());
+    public void displayAnswers () {
+        for (int i = 0; i < possibleAnswers.size(); i++) {
+            System.out.println(possibleAnswers.get(i));
+        }
     }
+
+    public boolean isCorrectAnswer (int possibleAnswer) {
+        if (possibleAnswer == correctAnswer) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public int getAnswers() {
+        Scanner answer = new Scanner(System.in);
+        System.out.println("What will your answer be? Enter the number of the option you believe is correct. For example, to select the first option, enter 1");
+        String userAnswer = answer.nextLine();
+        int result = Integer.parseInt(userAnswer);
+        if (isCorrectAnswer(result)) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
 }
